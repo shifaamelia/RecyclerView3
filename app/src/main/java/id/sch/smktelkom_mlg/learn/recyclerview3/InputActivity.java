@@ -51,13 +51,13 @@ public class InputActivity extends AppCompatActivity {
         hotel = (Hotel) getIntent().getSerializableExtra(MainActivity.HOTEL);
         if (hotel != null) {
             setTitle("Edit " + hotel.judul);
-            fileData();
+            fillData();
         } else {
             setTitle("New Hotel");
         }
     }
 
-    private void fileData() {
+    private void fillData() {
         etJudul.setText(hotel.judul);
         etDeskripsi.setText(hotel.deskripsi);
         etDetail.setText(hotel.detail);
