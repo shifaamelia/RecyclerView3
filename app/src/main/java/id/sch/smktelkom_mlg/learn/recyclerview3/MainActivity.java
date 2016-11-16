@@ -26,8 +26,19 @@ public class MainActivity extends AppCompatActivity implements HotelAdapter.IHot
 
 
     public static final String HOTEL = "hotel";
+    private static final int REQUEST_CODE_ADD = 88;
     ArrayList<Hotel> mList = new ArrayList<>();
     HotelAdapter mAdapter;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADD && resultCode == RESULT_OK) {
+            Hotel hotel = (Hotel) data.getSerializableExtra(HOTEL);
+            mList.add(hotel);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +51,10 @@ public class MainActivity extends AppCompatActivity implements HotelAdapter.IHot
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                goAdd();
             }
         });
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -52,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements HotelAdapter.IHot
         recyclerView.setAdapter(mAdapter);
 
         fillData();
+    }
+
+    private void goAdd() {
+        startActivityForResult(new Intent(this, InputActivity.class), REQUEST_CODE_ADD);
     }
 
     private void fillData() {
